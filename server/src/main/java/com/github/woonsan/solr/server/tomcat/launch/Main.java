@@ -57,7 +57,7 @@ public class Main {
         }
 
         final String solrHome = cmd.getOptionValue("solr-home", null);
-        final String tomcatBase = cmd.getOptionValue("tomcat-base", "temp-tomcat-base");
+        final String tomcatBase = cmd.getOptionValue("tomcat-base", "target/temp-tomcat-base");
         final String tomcatPort = cmd.getOptionValue("tomcat-port", "8080");
         final String contextPath = cmd.getOptionValue("context-path", "");
         final String docBase = cmd.getOptionValue("doc-base", tomcatBase + File.separator + "webapp");
