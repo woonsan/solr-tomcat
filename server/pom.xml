@@ -73,7 +73,13 @@
 
     <dependency>
       <groupId>com.github.woonsan</groupId>
-      <artifactId>solr-tomcat-webapp</artifactId>
+      <artifactId>solr-tomcat-resources-solr-solr</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.github.woonsan</groupId>
+      <artifactId>solr-tomcat-resources-solr-webapp</artifactId>
       <version>${project.version}</version>
     </dependency>
 

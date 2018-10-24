@@ -22,8 +22,13 @@
     <version>0.1.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>solr-tomcat-webapp</artifactId>
-  <packaging>jar</packaging>
-  <name>Solr Server on Embedded Tomcat Webapp</name>
+  <artifactId>solr-tomcat-resources</artifactId>
+  <packaging>pom</packaging>
+  <name>Solr Server on Embedded Tomcat Resources</name>
+
+  <modules>
+    <module>solr-solr</module>
+    <module>solr-webapp</module>
+  </modules>
 
 </project>

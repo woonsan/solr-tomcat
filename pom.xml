@@ -96,7 +96,7 @@
   </dependencyManagement>
 
   <modules>
-    <module>webapp</module>
+    <module>resources</module>
     <module>server</module>
   </modules>
 

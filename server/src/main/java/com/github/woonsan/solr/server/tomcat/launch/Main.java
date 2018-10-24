@@ -17,8 +17,6 @@
 package com.github.woonsan.solr.server.tomcat.launch;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URI;
 
 import org.apache.catalina.LifecycleEvent;
 import org.apache.catalina.LifecycleListener;
@@ -35,6 +33,8 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.github.woonsan.solr.server.tomcat.util.JarResourcesUtils;
 
 public class Main {
 
@@ -57,10 +57,11 @@ public class Main {
         }
 
         final String solrHome = cmd.getOptionValue("solr-home", null);
-        final String tomcatBase = cmd.getOptionValue("tomcat-base", "tomcat-base");
+        final String tomcatBase = cmd.getOptionValue("tomcat-base", "temp-tomcat-base");
         final String tomcatPort = cmd.getOptionValue("tomcat-port", "8080");
         final String contextPath = cmd.getOptionValue("context-path", "");
-        final String docBase = cmd.getOptionValue("doc-base", tomcatBase + "/webapp");
+        final String docBase = cmd.getOptionValue("doc-base", tomcatBase + File.separator + "webapp");
+        final String logDir = cmd.getOptionValue("log-dir", tomcatBase + File.separator + "logs");
 
         if (solrHome == null || solrHome.isEmpty()) {
             new HelpFormatter().printHelp("solrserver", cliOptions);
@@ -70,7 +71,11 @@ public class Main {
         final File solrHomeDir = new File(solrHome);
         if (!solrHomeDir.isDirectory()) {
             solrHomeDir.mkdirs();
+            final File solrHomeResJarFile = JarResourcesUtils
+                    .getJarFileHavingClasspathResource("META-INF/solr/solr/solr.xml");
+            JarResourcesUtils.extractJarToFolder(solrHomeResJarFile, "META-INF/solr/solr/", solrHomeDir);
         }
+
         System.setProperty("solr.solr.home", solrHomeDir.getAbsolutePath());
 
         final File tomcatBaseDir = new File(tomcatBase);
@@ -81,7 +86,12 @@ public class Main {
         if (!appDocBaseDir.isDirectory()) {
             appDocBaseDir.mkdirs();
         }
+        final File appLogDir = new File(logDir);
+        if (!appLogDir.isDirectory()) {
+            appLogDir.mkdirs();
+        }
 
+        System.setProperty("solr.log.dir", logDir);
         System.setProperty("org.apache.catalina.startup.EXIT_ON_INIT_FAILURE", "true");
 
         final Tomcat tomcat = new Tomcat() {
@@ -101,9 +111,11 @@ public class Main {
         ctx.setParentClassLoader(Main.class.getClassLoader());
 
         final WebResourceRoot resourceRoot = new StandardRoot(ctx);
-        final File webappJarFile = getJarFileHavingClasspathResource("META-INF/solr/webapp/index.html");
-        final WebResourceSet resourceSet = new JarResourceSet(resourceRoot, "/", webappJarFile.getAbsolutePath(), "/META-INF/solr/webapp");
-        resourceRoot.addPostResources(resourceSet);
+        final File solrWebappResJarFile = JarResourcesUtils
+                .getJarFileHavingClasspathResource("META-INF/solr/webapp/index.html");
+        final WebResourceSet resourceSet = new JarResourceSet(resourceRoot, "/", solrWebappResJarFile.getAbsolutePath(),
+                "/META-INF/solr/webapp");
+        resourceRoot.addPreResources(resourceSet);
         ctx.setResources(resourceRoot);
 
         tomcat.start();
@@ -120,22 +132,8 @@ public class Main {
         options.addOption("p", "tomcat-port", true, "Tomcat port number");
         options.addOption("c", "context-path", true, "Application context path");
         options.addOption("d", "doc-base", true, "Application doc path");
+        options.addOption("l", "log-dir", true, "Application logging directory path");
         return options;
     }
 
-    private static File getJarFileHavingClasspathResource(final String resourcePath) throws IOException {
-        final String resourceUrl = Main.class.getClassLoader().getResource(resourcePath).toString();
-
-        if (!resourceUrl.startsWith("jar:")) {
-            return null;
-        }
-
-        final int offset = resourceUrl.indexOf('!');
-
-        if (offset == -1) {
-            return null;
-        }
-
-        return new File(URI.create(resourceUrl.substring(4, offset)));
-    }
 }
