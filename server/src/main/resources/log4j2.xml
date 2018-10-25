@@ -11,13 +11,13 @@
 
   <Loggers>
 
-    <Logger name="com.github.woonsan.solr.server.tomcat" level="info" />
+    <Logger name="com.github.woonsan.solr.server.tomcat" level="debug" />
 
     <Logger name="org.apache.catalina" level="info" />
 
-    <Logger name="org.apache.solr" level="info" />
+    <Logger name="org.apache.solr" level="debug" />
 
-    <Root level="error">
+    <Root level="info">
       <AppenderRef ref="Console" />
     </Root>
 
