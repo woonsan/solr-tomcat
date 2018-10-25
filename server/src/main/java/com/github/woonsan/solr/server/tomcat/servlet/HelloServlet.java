@@ -28,12 +28,27 @@ public class HelloServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
+    private String message = "Hello, world!";
+
+    @Override
+    public void init() {
+        final String param = getServletConfig().getInitParameter("message");
+
+        if (param != null) {
+            message = param;
+        }
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+        resp.setContentType("text/html");
         ServletOutputStream out = resp.getOutputStream();
-        out.println("Hello, world!");
-        out.flush();
+        out.println("<html>");
+        out.println("<body>");
+        out.println("<p>" + message + "</p>");
+        out.println("</body>");
+        out.println("</html>");
         out.close();
     }
 

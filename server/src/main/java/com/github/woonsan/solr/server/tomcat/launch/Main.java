@@ -22,6 +22,7 @@ import org.apache.catalina.LifecycleEvent;
 import org.apache.catalina.LifecycleListener;
 import org.apache.catalina.WebResourceRoot;
 import org.apache.catalina.WebResourceSet;
+import org.apache.catalina.Wrapper;
 import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.catalina.webresources.JarResourceSet;
@@ -34,6 +35,7 @@ import org.apache.commons.cli.Options;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.woonsan.solr.server.tomcat.servlet.HelloServlet;
 import com.github.woonsan.solr.server.tomcat.util.JarResourcesUtils;
 
 public class Main {
@@ -109,6 +111,10 @@ public class Main {
 
         StandardContext ctx = (StandardContext) tomcat.addWebapp(contextPath, appDocBaseDir.getAbsolutePath());
         ctx.setParentClassLoader(Main.class.getClassLoader());
+
+        final Wrapper servletWrapper = Tomcat.addServlet(ctx, "HelloServlet", new HelloServlet());
+        servletWrapper.addInitParameter("message", "Hello, Solr!");
+        ctx.addServletMappingDecoded("/hello/*", "HelloServlet");
 
         final WebResourceRoot resourceRoot = new StandardRoot(ctx);
         final File solrWebappResJarFile = JarResourcesUtils
