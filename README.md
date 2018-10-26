@@ -47,7 +47,7 @@ Date: Fri, 26 Oct 2018 21:34:10 GMT
 </html>
 ```
 
-But if you visit http://localhost:8983/solr/index.html in your web browser, it doesn't work yet:
+But if you visit the Solr Admin UI at http://localhost:8983/solr/index.html in your web browser, it doesn't work yet:
 
 ```
 SolrCore Initialization Failures
