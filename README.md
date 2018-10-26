@@ -31,7 +31,7 @@ INFO: Starting ProtocolHandler ["http-nio-8983"]
 
 ## How to test
 
-I've added a non-solr servlet, [HelloServlet](), just to test if the embedded Tomcat works--it works.
+I've added a non-solr servlet, [HelloServlet](server/src/main/java/com/github/woonsan/solr/server/tomcat/servlet/HelloServlet.java) in the launcher [Main.java](server/src/main/java/com/github/woonsan/solr/server/tomcat/launch/Main.java#L119-L121), just to test if the embedded Tomcat itself works--it does.
 
 ```
 $ curl -i http://localhost:8983/solr/hello
