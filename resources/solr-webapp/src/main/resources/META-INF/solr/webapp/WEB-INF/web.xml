@@ -17,8 +17,8 @@
 -->
 <web-app xmlns="http://java.sun.com/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-         version="2.5"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0"
          metadata-complete="true"
 >
 
@@ -77,15 +77,16 @@
   </welcome-file-list>
 
   <!-- Get rid of error message -->
-  <!--
+  <!-- WK: looks like the first one below with '/*', not '/' is good enough to disallow TRACE method in Tomcat. -->
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>Disable TRACE</web-resource-name>
-      <url-pattern>/</url-pattern>
+      <url-pattern>/*</url-pattern>
       <http-method>TRACE</http-method>
     </web-resource-collection>
     <auth-constraint/>
   </security-constraint>
+  <!--
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>Enable everything but TRACE</web-resource-name>
@@ -99,7 +100,6 @@
     RedirectServlet can be used to redirect old endpoints to a new location to support back compatibility.
     Example below
   -->
-<!--
   <servlet>
     <servlet-name>RedirectOldZookeeper</servlet-name>
     <servlet-class>org.apache.solr.servlet.RedirectServlet</servlet-class>
@@ -112,5 +112,5 @@
     <servlet-name>RedirectOldZookeeper</servlet-name>
     <url-pattern>/zookeeper</url-pattern>
   </servlet-mapping>
--->  
+
 </web-app>
