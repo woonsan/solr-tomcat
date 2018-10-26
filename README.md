@@ -63,7 +63,7 @@ That's what I need to investigate on my next available time.
 
 ## Tomcat Dependency
 
-It's just two tomcat JAR libraries. Really lightweight!
+It's just two tomcat JAR libraries. How lightweight it is!
 
 ```
 $ mvn dependency:tree -Dincludes=org.apache.tomcat
