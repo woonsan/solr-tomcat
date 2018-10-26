@@ -17,6 +17,7 @@
 package com.github.woonsan.solr.server.tomcat.launch;
 
 import java.io.File;
+import java.net.URISyntaxException;
 
 import org.apache.catalina.LifecycleEvent;
 import org.apache.catalina.LifecycleListener;
@@ -32,6 +33,7 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -96,6 +98,8 @@ public class Main {
         System.setProperty("solr.log.dir", logDir);
         System.setProperty("org.apache.catalina.startup.EXIT_ON_INIT_FAILURE", "true");
 
+        initLogging();
+
         final Tomcat tomcat = new Tomcat() {
             @Override
             public LifecycleListener getDefaultWebXmlListener() {
@@ -142,4 +146,12 @@ public class Main {
         return options;
     }
 
+    private static void initLogging() {
+        try {
+            Configurator.initialize(null, Main.class.getResource("/solr-log4j2.xml").toURI().toString());
+        } catch (URISyntaxException e) {
+            System.err.println("Failed to initialize logging. " + e);
+            e.printStackTrace();
+        }
+    }
 }

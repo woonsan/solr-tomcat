@@ -1,4 +1,4 @@
 #!/bin/sh
 
 ./server/target/bin/solrserver \
-    --solr-home=server/target/solr-home
+    --solr-home=target/solr-home
