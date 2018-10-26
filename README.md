@@ -191,4 +191,4 @@ $ mvn dependency:tree
 [INFO] \- com.github.woonsan:solr-tomcat-resources-solr-webapp:jar:0.1.0-SNAPSHOT:compile
 ```
 
-By the way, in my PoC project, I've added `commons-cli:commons-cli` for command line parsing, and `org.apache.commons:commons-compress` for initialization of solr home and solr webapp by extracting jar files.
+By the way, in this PoC project, I've added `commons-cli:commons-cli` for command line parsing, and `org.apache.commons:commons-compress` for initialization of solr home and solr webapp by extracting jar files.
