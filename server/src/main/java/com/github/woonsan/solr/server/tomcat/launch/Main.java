@@ -99,7 +99,7 @@ public class Main {
         System.setProperty("org.apache.catalina.startup.EXIT_ON_INIT_FAILURE", "true");
 
         initLogging();
-
+        // TODO: This can be done simply by Tomcat#setAddDefaultWebXmlToWebapp(false) in the next version of Tomcat.
         final Tomcat tomcat = new Tomcat() {
             @Override
             public LifecycleListener getDefaultWebXmlListener() {
